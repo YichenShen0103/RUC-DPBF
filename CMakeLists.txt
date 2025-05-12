@@ -16,7 +16,13 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -O3")
 
 add_executable(${PROJECT_NAME} src/try_cpu.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CUDA_INCLUDE_DIRS})
-set(BOOST_ROOT "C:/local/boost_1_87_0")
+if (WIN32)
+    set(BOOST_ROOT "C:/local/boost_1_87_0")
+elseif (APPLE)
+    set(BOOST_ROOT "/opt/homebrew/opt/boost")
+else()
+    set(BOOST_ROOT "/usr/local/boost_1_81_0")
+endif()
 # 禁用搜索系统路径
 set(Boost_NO_SYSTEM_PATHS ON) # 非常重要，否则会导致找不到 Boost 库
 # 查找Boost库，指定需要的组件

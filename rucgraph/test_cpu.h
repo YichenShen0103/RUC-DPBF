@@ -17,7 +17,7 @@ void test_graph_v_of_v_idealID_DPBF_only_ec_cpu() {
         std::unordered_set<int> generated_group_vertices;
         graph_hash_of_mixed_weighted instance_graph, generated_group_graph;
         graph_hash_of_mixed_weighted_read_for_GSTP(
-                R"(..\data\data)" + to_string(i) + ".csv", instance_graph,
+                R"(../data/data)" + to_string(i) + ".csv", instance_graph,
                 generated_group_graph, generated_group_vertices);
                 
         cout << "iteration " << i << endl;
