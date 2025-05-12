@@ -1,8 +1,8 @@
 // 你需要在这里参考论文实现相应代码
 
 int graph_v_of_v_idealID_DPBF_only_ec(
-    vector<vector<pair<int, int>>>& v_instance_graph,        // 不包含分组的原始图邻接表，pair中第一项是下一节点，第二项为权重
-    vector<vector<pair<int, int>>>& v_generated_group_graph, // 包含若干虚拟节点，表示一个分组，每个邻接项都表示一个在这个分组的节点
+    std::vector<std::vector<pair<int, int>>>& v_instance_graph,        // 不包含分组的原始图邻接表，pair中第一项是下一节点，第二项为权重
+    std::vector<std::vector<pair<int, int>>>& v_generated_group_graph, // 包含若干虚拟节点，表示一个分组，每个邻接项都表示一个在这个分组的节点
     std::unordered_set<int>& group_vertices                  // 所有组代表的虚拟节点的集合
 ) 
 {
@@ -18,14 +18,14 @@ int graph_v_of_v_idealID_DPBF_only_ec(
             int v = virtual_edge.first;
             if (gmap.find(v) == gmap.end())
                 gmap[v] = 0;
-            gmap[v] += 1 << (g - V);                             // 把所有关键词累加即可
+            gmap[v] |= 1 << (g - V);                             // 把所有关键词累加即可
         }
     }
 
     // 准备工作 2：建立优先队列，并初始化
     // 准备工作 3：建立 T->cost 记忆
-    using T = tuple<int, int, long long>;                  // 使用一个三元组来表示树的状态，三个元素分别为cost（当前树的代价），v（当前树的根节点），pmask（当前树包含哪些关键词）
-    std::priority_queue<T, vector<T>, greater<T>> pq;
+    using T = std::tuple<int, int, long long>;                  // 使用一个三元组来表示树的状态，三个元素分别为cost（当前树的代价），v（当前树的根节点），pmask（当前树包含哪些关键词）
+    std::priority_queue<T, std::vector<T>, std::greater<T>> pq;
     std::vector<std::unordered_map<long long, int>> dp(V); // dp[v][pmask] 数据结构用来记录以 v 为根节点，包含的关键词可用 pmask 表示的所有树中最优的一棵的代价
     for (int v = 0; v < V; ++v) {
         if (gmap.find(v) != gmap.end()) {
